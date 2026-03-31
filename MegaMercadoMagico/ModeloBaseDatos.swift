@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 final class Cliente{
-    private var id: UUID
+    var id: UUID
     private var cedula: String
     private var nombre: String
     private var apellido: String
