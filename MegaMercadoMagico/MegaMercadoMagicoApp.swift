@@ -12,7 +12,7 @@ import SwiftData
 struct MegaMercadoMagicoApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -25,7 +25,7 @@ struct MegaMercadoMagicoApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+           
         }
         .modelContainer(sharedModelContainer)
     }
