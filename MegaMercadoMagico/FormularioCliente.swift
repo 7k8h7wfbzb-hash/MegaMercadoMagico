@@ -29,7 +29,6 @@ struct FormularioCliente: View {
             Form {
                 Section("Identificación") {
                     TextField("Cédula", text: $cedula)
-                        .keyboardType(.numberPad)
                 }
 
                 Section("Datos Personales") {
@@ -46,10 +45,7 @@ struct FormularioCliente: View {
 
                 Section("Contacto") {
                     TextField("Email", text: $email)
-                        .keyboardType(.emailAddress)
-                        .autocapitalization(.none)
                     TextField("Teléfono", text: $telefono)
-                        .keyboardType(.phonePad)
                     TextField("Dirección", text: $direccion)
                 }
             }
