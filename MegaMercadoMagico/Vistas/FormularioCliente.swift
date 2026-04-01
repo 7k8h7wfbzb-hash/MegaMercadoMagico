@@ -4,23 +4,61 @@
 //
 //  Created by kleber oswaldo muy landi on 30/3/26.
 //
+//  Formulario modal para crear y editar clientes.
+//  Soporta navegación completa por teclado entre todos los campos.
+//
 
 import SwiftUI
 import SwiftData
 import UniformTypeIdentifiers
 
+/// Identifica cada campo del formulario para gestionar el foco del teclado.
+///
+/// Permite navegar secuencialmente entre campos con `↩` (siguiente)
+/// y `↓` (siguiente), y retroceder con `↑` (campo anterior).
 private enum CampoFoco: Hashable {
     case cedula, nombre, apellido, edad, genero, fechaNacimiento, email, telefono, direccion
 }
 
+/// Formulario modal para registrar un nuevo cliente o editar uno existente.
+///
+/// Se presenta como sheet desde ``Clientes``. En modo creación todos los campos
+/// comienzan vacíos y el foco se sitúa en "Cédula". En modo edición los campos
+/// se pre-rellenan con los datos del cliente recibido en ``clienteAEditar``.
+///
+/// ## Navegación por teclado
+/// - `↩` / `↓` : avanza al siguiente campo.
+/// - `↑`       : retrocede al campo anterior.
+/// - `⌘↩`      : guarda si los campos obligatorios están completos.
+///
+/// ## Campos obligatorios
+/// Cédula, Nombre y Apellido son obligatorios. El botón Guardar permanece
+/// deshabilitado hasta que los tres contienen texto no vacío.
 struct FormularioCliente: View {
+
+    // MARK: - Entorno
+
+    /// Contexto de SwiftData para insertar o guardar el cliente.
     @Environment(\.modelContext) private var modelContext
+
+    /// Acción de dismiss para cerrar el sheet al guardar o cancelar.
     @Environment(\.dismiss) private var dismiss
+
+    // MARK: - Parámetros
+
+    /// Cliente a editar. `nil` indica modo creación de nuevo cliente.
+    var clienteAEditar: Cliente? = nil
+
+    // MARK: - Estado de los campos
 
     @State private var cedula: String = ""
     @State private var nombre: String = ""
     @State private var apellido: String = ""
+
+    /// Valor numérico de la edad, sincronizado bidireccionalmente con `fechaNacimiento`.
     @State private var edad: Int = 18
+
+    /// Representación textual de `edad` para el `TextField` de entrada directa.
     @State private var edadTexto: String = "18"
     @State private var genero: String = "Masculino"
     @State private var fechaNacimiento: Date = Date()

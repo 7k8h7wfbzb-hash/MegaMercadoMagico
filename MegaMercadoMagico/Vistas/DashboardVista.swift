@@ -9,6 +9,7 @@
 //  secciones principales de la tienda, y un panel de detalle con el contenido
 //  de la sección seleccionada.
 //
+//  Estructura visual:
 //  ┌─────────────────────────────────────────────┐
 //  │  Sidebar          │  Detail                 │
 //  │  ─────────────    │  ───────────────────    │
@@ -21,6 +22,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 /// Vista principal de la app. Contiene la navegación global mediante sidebar.
 struct DashboardVista: View {
@@ -88,4 +90,5 @@ struct DashboardVista: View {
 
 #Preview {
     DashboardVista()
+        .modelContainer(for: [Cliente.self], inMemory: true)
 }
